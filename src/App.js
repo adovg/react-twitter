@@ -6,6 +6,12 @@ import SearchPannel from './search-pannel/SearchPannel';
 import PostStatusFilter from './post-status-filter/post-status-filter';
 import PostList from './post-list/post-list';
 import PostAddForm from './post-add-form/post-add-form';
+import styled from 'styled-components';
+
+const AppBlock = styled.div`
+  margin: 0 auto;
+  max-width: 800px;
+`
 
 function App() {
 
@@ -16,7 +22,7 @@ function App() {
   ];
 
   return (
-    <div className="App">
+    <AppBlock>
      <Header/>   
      <div className='search-pannel d-flex'>
      <SearchPannel/>
@@ -24,7 +30,7 @@ function App() {
      </div>
      <PostList posts={myLabels}/>
      <PostAddForm/>
-    </div>
+    </AppBlock>
   );
 }
 
