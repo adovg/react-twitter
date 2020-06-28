@@ -13,14 +13,55 @@ const AppBlock = styled.div`
   max-width: 800px;
 `
 
-function App() {
+export default class App extends React.Component {
+constructor(props) {
+  super(props)
+  this.state = {
+    myLabels: [
+    {label: 'Going to learn React', important: true, id: 1},
+    {label: 'Its Cool', important: false, id: 2},
+    {label: 'And Im not going to stoop', important: false, id: 3}
+    ]
+  };
+  this.deleteItem = this.deleteItem.bind(this);
+  this.addItem = this.addItem.bind(this);
 
-  const myLabels = [
-    {label: 'Going to learn React', important: true, id: 'asdqw'},
-    {label: 'Its Cool', important: false, id: 'asdqwf'},
-    {label: 'And Im not going to stoop', important: false, id: 'osdjkqw'}
-  ];
+  this.maxId = 4;
+}
+  // const myLabels = [
+  //   {label: 'Going to learn React', important: true, id: 'asdqw'},
+  //   {label: 'Its Cool', important: false, id: 'asdqwf'},
+  //   {label: 'And Im not going to stoop', important: false, id: 'osdjkqw'}
+  // ];
 
+  deleteItem(id) {
+    this.setState( ({myLabels}) => {
+      const index = myLabels.findIndex( (elem) => elem.id === id );
+      const before = myLabels.slice(0, index);
+      const after = myLabels.slice(index + 1);
+
+      const newArr = [...before, ...after];
+      return {
+        myLabels: newArr
+      }
+    });
+  };
+
+  addItem(body) {
+    const newItem = {
+      label: body,
+      important: false,
+      id: this.maxId++
+    }
+    this.setState(({myLabels}) => {
+      const newArrs = [...myLabels, newItem];
+      return {
+        myLabels: newArrs
+      }
+    })
+  }
+
+render () {
   return (
     <AppBlock>
      <Header/>   
@@ -28,10 +69,11 @@ function App() {
      <SearchPannel/>
      <PostStatusFilter/>
      </div>
-     <PostList posts={myLabels}/>
-     <PostAddForm/>
+     <PostList posts={this.state.myLabels} onDelete={this.deleteItem}/>
+     <PostAddForm onAdd={this.addItem}/>
     </AppBlock>
   );
 }
+}
 
-export default App;
+// export default App;
